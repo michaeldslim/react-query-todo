@@ -1,5 +1,10 @@
 # React + TypeScript + Vite
 
+- npm create vite@latest react-query-todo -- --template react-ts
+- cd react-query-todo && npm install
+- npm install @tanstack/react-query @tanstack/react-query-devtools @supabase/supabase-js axios uuid
+- npm run dev
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
