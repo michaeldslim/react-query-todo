@@ -21,7 +21,6 @@ function App() {
       <div className="app">
         <header className="app-header">
           <h1>React Query Todo App</h1>
-          <p>Learn React Query with this interactive todo application</p>
         </header>
         
         <main className="app-main">
@@ -30,7 +29,7 @@ function App() {
         </main>
         
         <footer className="app-footer">
-          <p>Built with React Query • Open DevTools to explore caching</p>
+          <p>Built with React Queryg</p>
         </footer>
       </div>
       

@@ -1,4 +1,4 @@
-import { supabase } from '../lib/supabase';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import type { ITodo, ICreateTodoRequest, IUpdateTodoRequest, ISupabaseTodo } from '../types';
 
 // Supabase API for Todo operations
@@ -17,8 +17,12 @@ class TodoApi {
 
   // Get all todos from Supabase
   static async getTodos(): Promise<ITodo[]> {
+    if (!isSupabaseConfigured) {
+      throw new Error('Supabase is not configured. Please set up your environment variables in .env.local file. See SUPABASE_SETUP.md for instructions.');
+    }
+
     const { data, error } = await supabase
-      .from(this.TABLE_NAME)
+      .from(TodoApi.TABLE_NAME)
       .select('*')
       .order('created_at', { ascending: false });
 
@@ -27,13 +31,13 @@ class TodoApi {
       throw new Error(`Failed to fetch todos: ${error.message}`);
     }
 
-    return data?.map(this.transformSupabaseTodo) || [];
+    return data?.map(TodoApi.transformSupabaseTodo) || [];
   }
 
   // Create a new todo in Supabase
   static async createTodo(data: ICreateTodoRequest): Promise<ITodo> {
     const { data: newTodo, error } = await supabase
-      .from(this.TABLE_NAME)
+      .from(TodoApi.TABLE_NAME)
       .insert({
         text: data.text,
         completed: data.completed || false,
@@ -46,7 +50,7 @@ class TodoApi {
       throw new Error(`Failed to create todo: ${error.message}`);
     }
 
-    return this.transformSupabaseTodo(newTodo);
+    return TodoApi.transformSupabaseTodo(newTodo);
   }
 
   // Update a todo in Supabase
@@ -54,7 +58,7 @@ class TodoApi {
     const { id, ...updateData } = data;
     
     const { data: updatedTodo, error } = await supabase
-      .from(this.TABLE_NAME)
+      .from(TodoApi.TABLE_NAME)
       .update(updateData)
       .eq('id', id)
       .select()
@@ -69,13 +73,13 @@ class TodoApi {
       throw new Error('Todo not found');
     }
 
-    return this.transformSupabaseTodo(updatedTodo);
+    return TodoApi.transformSupabaseTodo(updatedTodo);
   }
 
   // Delete a todo from Supabase
   static async deleteTodo(id: string): Promise<void> {
     const { error } = await supabase
-      .from(this.TABLE_NAME)
+      .from(TodoApi.TABLE_NAME)
       .delete()
       .eq('id', id);
 
@@ -88,7 +92,7 @@ class TodoApi {
   // Initialize sample data (optional - for first time setup)
   static async initializeSampleData(): Promise<void> {
     const { data: existingTodos } = await supabase
-      .from(this.TABLE_NAME)
+      .from(TodoApi.TABLE_NAME)
       .select('id')
       .limit(1);
 
@@ -106,7 +110,7 @@ class TodoApi {
       ];
 
       const { error } = await supabase
-        .from(this.TABLE_NAME)
+        .from(TodoApi.TABLE_NAME)
         .insert(sampleTodos);
 
       if (error) {
