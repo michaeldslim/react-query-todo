@@ -5,7 +5,6 @@ import AddTodo from './components/AddTodo';
 import TodoList from './components/TodoList';
 import './App.css';
 
-// Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -20,7 +19,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <div className="app">
         <header className="app-header">
-          <h1>React Query Todo App</h1>
+          <h1>Todo App</h1>
         </header>
         
         <main className="app-main">
@@ -29,11 +28,10 @@ function App() {
         </main>
         
         <footer className="app-footer">
-          <p>Built with React Queryg</p>
+          <p>Built with React Query</p>
         </footer>
       </div>
       
-      {/* React Query DevTools */}
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

@@ -1,11 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Supabase configuration
-// You'll need to replace these with your actual Supabase project credentials
+// supabase project credentials
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Check if environment variables are set
 if (!supabaseUrl || !supabaseAnonKey) {
   console.error('Missing Supabase environment variables!');
   console.error('Please create a .env.local file with:');
@@ -14,16 +12,14 @@ if (!supabaseUrl || !supabaseAnonKey) {
   console.error('See SUPABASE_SETUP.md for detailed instructions.');
 }
 
-// Create Supabase client with fallback values to prevent crashes
+// fallback values
 export const supabase = createClient(
   supabaseUrl || 'https://placeholder.supabase.co',
   supabaseAnonKey || 'placeholder-key'
 );
 
-// Export a flag to check if Supabase is properly configured
 export const isSupabaseConfigured = !!(supabaseUrl && supabaseAnonKey);
 
-// Database types for better TypeScript support
 export interface Database {
   public: {
     Tables: {

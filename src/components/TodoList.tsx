@@ -41,7 +41,6 @@ const TodoList: React.FC = () => {
       <div className="todo-stats">
         <p>
           {completedCount} of {totalCount} completed
-          {completedCount === totalCount && totalCount > 0 && ' 🎉'}
         </p>
       </div>
       
